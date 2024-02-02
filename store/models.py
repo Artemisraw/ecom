@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django import forms
 
 # Create your models here.
 
@@ -42,3 +43,75 @@ class Order(models.Model):
     def __str__(self):
         return self.product
 
+
+# Signup 
+class SignUp(models.Model):
+    Farmer = "f"
+    Vendor = "v"
+    Male = "m"
+    Female = "f"
+
+    User_Choices = (
+        ('f', 'Farmer'),
+        ('v', 'Vendor'),
+    )
+
+    Gender = (
+        ('m', 'Male'),
+        ('f', 'Female'),
+    )
+
+    Fname = models.CharField(max_length=40)
+    Lname = models.CharField(max_length=40)
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=50)
+    number = models.CharField(max_length=10)
+    gender = models.CharField(
+        max_length=6, 
+        choices=Gender,
+        blank=True,
+        default='m',
+        help_text='Select Gender below',
+    )
+    user_type = models.CharField(
+        max_length=6,
+        choices=User_Choices,
+        blank=True,
+        default='f',
+        help_text='Select Role below',
+    )
+
+
+class User(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = SignUp
+        fields = ('Fname', 'Lname', 'email', 'password', 'number', 'gender', 'user_type')
+
+    def clean(self):
+        super(User.self).clean()
+        number = self.cleaned_data.get('number')
+        password = self.cleaned_data.get('password')
+
+        if len(password) < 8:
+            self.errors['password'] = self.error_class(
+                ['Password must be more than 8 characters']
+            )
+        if len(number) < 10:
+            self.errors['number'] = self.error_class(
+                ['Number is not valid, number is less than 10 characters']
+            )
+        if len(number) > 10:
+            self.errors['number'] = self.error_class(
+                ['Number is not valid, number is more than 10 characters']
+            )    
+        return self.cleaned_data
+
+class Login(models.Model):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=50)
+
+    
