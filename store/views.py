@@ -14,3 +14,5 @@ def login(request):
 def register(request):
     register_url = '../templates/registration/register.html/'
     return render(request, register_url)
+def about(request):
+    return render(request, 'about.html',{})
