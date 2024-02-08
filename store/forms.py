@@ -3,11 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from store.models import Signup
+from store.models import Login, User
 
 class CreateUserForm(forms.ModelForm):
     class Meta:
-        model = Signup
+        model = User
         fields = ['fName', 'lName', 'email', 'password1', 'password2', 'number', 'gender', 'user_type']
 
     fName = forms.CharField(
@@ -34,22 +34,18 @@ class CreateUserForm(forms.ModelForm):
         label='Number',
         widget=forms.TextInput(attrs={'placeholder': 'Number'})
     )
-   
-    def clean(self):
-        super(User.self).clean()
-        number = self.cleaned_data.get('number')
-        password1 = self.cleaned_data.get('password1')
 
-        if len(password1) < 8:
-            self.errors['password'] = self.error_class(
-                ['Password must be more than 8 characters']
-            )
-        if len(number) < 10:
-            self.errors['number'] = self.error_class(
-                ['Number is not valid, number is less than 10 characters']
-            )
-        if len(number) > 10:
-            self.errors['number'] = self.error_class(
-                ['Number is not valid, number is more than 10 characters']
-            )    
-        return self.cleaned_data
+class CreateLoginForm(forms.ModelForm):
+    class Meta:
+        model = Login
+        fields = ['email', 'password']
+
+    email = forms.CharField(
+        label='email',
+        widget=forms.TextInput(attrs={'placeholder': 'Email..'})
+    )
+    password = forms.CharField(
+        label='password',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password..'})
+    )
+    

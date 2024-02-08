@@ -17,6 +17,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length = 15)
     email = models.EmailField(max_length = 256)
     password = models.CharField(max_length = 100)
+    role = models.CharField(max_length = 50)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -47,13 +48,13 @@ class Order(models.Model):
 
 
 # Signup 
-class Signup (models.Model):
+class User(models.Model):
     Farmer = "f"
     Vendor = "v"
     Male = "m"
     Female = "f"
 
-    User_Choices = (
+    Role = (
         ('f', 'Farmer'),
         ('v', 'Vendor'),
     )
@@ -78,16 +79,14 @@ class Signup (models.Model):
     )
     user_type = models.CharField(
         max_length=6,
-        choices=User_Choices,
+        choices=Role,
         blank=True,
-        default='f',
+        default='',
         help_text='Select Role below',
     )
 
 
 class Login(models.Model):
-    password = forms.CharField(widget=forms.PasswordInput())
-
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=50)
 
