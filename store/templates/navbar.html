@@ -7,13 +7,24 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{%url 'home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">logout</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                        
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'home'%}">All Products</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Fruits'%}">Fruits</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Animal-Produce'%}">Animal Products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Vegetables'%}">Vegetables</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -22,11 +33,12 @@
                         <a href="{% url 'register' %}">Signup</a>
                     </div>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <a href="{% url 'cart_sum'%}" class="btn btn-outline-dark">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
+                        </a>
+
                     </form>
                 </div>
             </div>
