@@ -1,13 +1,49 @@
 from django.shortcuts import render, redirect
 from .models import Product
-from .models import Category
+from .models import Category, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login, logout 
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUser, ChangePass, UserInfo
 from django import forms
+from django.db.models import Q
 
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        searched = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
+
+        if not searched:
+            messages.success(request, "The Product Doesn't Exist - Please Try Again ")
+            return render(request,'search.html', {})
+        else:
+            return render(request,'search.html', {'searched':searched})
+    else:
+        return render(request,'search.html', {})
+
+
+def update_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(id=request.user.id)
+        form = UserInfo(request.POST or None, instance=current_user)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "User info has been Updated")
+            return redirect('home')
+        return render(request, "update_info.html", {'form': form})
+       
+    else:
+        messages.success(request, "You must be logged in to access this page")
+        return redirect('home')
+
+
+def category_summary(request):
+    categories = Category.objects.all()
+    return render(request,'category_summary.html',{'categories':categories})
 
 def category(request, cat):
     # replace space with hifen
@@ -71,10 +107,50 @@ def register_user(request):
             #login user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("You have successfully registerd"))
-            return redirect('home')
+            messages.success(request, ("Username Created - Please Fill Out Your User Info Below "))
+            return redirect('update_info')
         else:
             messages.success(request, ("There was a problem while registering"))
             return redirect('register')
     else:
         return render(request,'register.html', {'form':form})
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUser(request.POST or None, instance=current_user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            login(request, current_user)
+            messages.success(request, "User has been Updated")
+            return redirect('home')
+        return render(request, "update_user.html", {'user_form': user_form})
+       
+    else:
+        messages.success(request, "You must be logged in to access this page")
+        return redirect('login_user')
+
+def update_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        if request.method == "POST":
+            form = ChangePass(current_user, request.POST)
+
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Your password has been updated.. ")
+                login(request, current_user)
+                return redirect('update_user')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+                    return redirect('update_password')
+        else:
+             form = ChangePass(current_user)
+             return render(request, "update_password.html", {'form':form})
+    else:
+        messages.success(request, "You must be logged in to view this page")
+        return redirect('home')
