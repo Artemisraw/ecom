@@ -1,81 +1,127 @@
 {% extends 'base.html' %}
 {% block content%}
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0"></p>
+<!-- Header-->
+
+<body>
+    <section id="hero">
+        <div class="hero-container">
+            <h3>Welcome to <strong>Smart Farm</strong></h3>
+            <h2>"Empowering Agriculture, Enabling Tomorrow: Your Future Harvest Starts Here!</h2>
+            <a href="{% url 'about' %}" class="btn-get-started scrollto">Get Started</a>
+        </div>
+    </section>
+    <!-- section -->
+
+
+    <!-- <section>
+    <div class="container-md px-1 px-lg-5 my-0"> 
+        <img class="img-fluid ms-0 ps-1" src="/media/uploads/product/fruits.jpg" alt="">
+    </div>
+
+    <div class="d-flex px-lg-2 h-80">
+        <div class="container row m-auto pt-5 mt-2 h-100">
+            <div class="col-md">
+                <p align="justify">
+                    The company is committed to connecting farmers directly with consumers and transforming the fresh
+                    produce supply
+                    chain. They provide a platform for local farmers to showcase their produce and engage with customers
+                    who prioritize
+                    freshness, flavor, and sustainability. Emphasizing transparency and traceability, they collaborate
+                    closely with
+                    partner farmers to ensure products are grown with care and respect for the environment. The
+                    marketplace offers a
+                    diverse range of items, and by supporting the farmer's ecommerce project, customers are encouraged
+                    to invest in a
+                    more sustainable and equitable food system. The company invites people to explore their marketplace,
+                    connect with
+                    farmers, and enjoy the benefits of healthy eating while supporting local agriculture.
+                </p>
+            </div>
+            <div class="col-md h-100">
+                <div class="w-90">
+                    <img class="img-fluid rounded w-80 h-40 ratio ratio-3x4 m-auto" src="/media/uploads/product/grapes.jpg"
+                        alt="">
                 </div>
             </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
+            <div class="col-md d-flex h-80 gap-2 flex-column " style="height: 80%;">
+                <div class="row bg-light h-50">
+                    <div class="w-50 ratio ratio-2x1" style="height: 50%;">
+                        <img class="rounded w-80 h-40 m-auto ratio ratio-4x3"
+                            src="/media/uploads/product/mango.jpg" alt="">
+                    </div>
+                </div>
+                <div class="row bg-light h-50" style="height: 50%;">
+                    <div class="w-90 h-40">
+                        <img class="img-fluid rounded w-80 h-40 m-auto ratio ratio-4x3"
+                            src="/media/uploads/product/banana.jpg" alt="">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section> -->
+    <main id="main">
+        <section id="services" class="services">
+            <div class="container">
 
-                  {% for product in products %}
-                    {% if product.is_sale %}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!--Sale Badge-->
-                            <div class="badge bg-light text-black position-absolute"
-                                style="top: 0.5rem; right: 0.5rem;">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{product.image.url}}" alt="..." />
-                            <!-- Product Adetails-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{product.name}}</h5>
-                                    <!--Sale star banner thing-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        &nbsp;&nbsp;Sale!!&nbsp;&nbsp;
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <strike>
-                                    Ksh{{product.price}}
-                                   </strike>
-                                &nbsp; Ksh{{product.sale_price}}
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
-                            </div>
+                <div class="section-title">
+                    <h2>Services</h2>
+                    <h3>We do offer awesome <span>Services</span></h3>
+                    <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
+                        atque vitae autem.</p>
+                </div>
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                            <h4 class="title"><a href="">Product Delivery</a></h4>
+                            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                excepturi</p>
                         </div>
                     </div>
-                    
 
-                    {%else%}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{product.image.url}}" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{product.name}}</h5>
-                                    <!-- Product price-->
-                                    Ksh{{product.price}}
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a></div>
-                            </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-file"></i></div>
+                            <h4 class="title"><a href="">Nutrition Guides</a></h4>
+                            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                dolore</p>
                         </div>
                     </div>
-                    {% endif %}
-                    
-                    {% endfor %}
-                    
+
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bx-tachometer"></i></div>
+                            <h4 class="title"><a href="">Farming Guides</a></h4>
+                            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                officia</p>
+                        </div>
                     </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="cta" class="cta">
+            <div class="container">
+                <div class="text-center">
+                    <h3>Sign up Today</h3>
+                    <p>
+                        Transform your farming experience today! Join us for smarter, sustainable agriculture. Start Growing, Start
+                        Thriving—Explore the Future of Farming with Us! </p>
+                    <a class="cta-btn" href="{% url 'register' %}">Sign Up</a>
                 </div>
             </div>
         </section>
-        {% endblock%}
+
+    
+    </main>
+</body>
+
+<script src="/static/js/main.js"></script>
+
+
+
+{% endblock%}

@@ -1,45 +1,38 @@
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{%url 'home' %}">Farmers Connect</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{%url 'home' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+<header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center justify-content-between">
 
+      <h1 class="logo"><a href="{%url 'home' %}">Smart Farm</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-                        {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">logout</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                        {% endif %}
-                        
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+          <li><a class="nav-link " href="{% url 'search' %}">Search</a></li>
+          <li><a class="nav-link " href="{% url 'about' %}">About</a></li>
+          <li class="dropdown"><a href="#"><span>Categories</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'category' 'Fruits' %}">Fruits</a></li>
+              <li><a href="{% url 'category' 'Animal-Produce' %}">Animal Produce</a></li>
+              <li><a href="{% url 'category' 'Vegetables' %}">Vegetables</a></li>
+              <li><a href="{% url 'category' 'Cereals' %}">Cereals</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Profile</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'update_user'%}">User Profile</a></li>
+              <li><a href="{% url 'update_info'%}">User Info</a></li>
+              <li><a href="{% url 'logout'%}">Logout</a></li>
+            </ul>
+            {%else%}
+            <li><a href="{% url 'login'%}">Login</a></li>
+            <li><a href="{% url 'register'%}">Sign Up</a></li>
+          </li>
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'home'%}">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Fruits'%}">Fruits</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Animal-Produce'%}">Animal Products</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Vegetables'%}">Vegetables</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div>
-                        <a href="{% url 'login' %}">Login</a>
-                        <a href="{% url 'register' %}">Signup</a>
-                    </div>
-                    <form class="d-flex">
-                        <a href="{% url 'cart_sum'%}" class="btn btn-outline-dark">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </a>
-
-                    </form>
-                </div>
-            </div>
-        </nav>
+    </div>
+  </header>
