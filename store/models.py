@@ -72,7 +72,7 @@ class Order(models.Model):
 
 
 # Signup 
-class SignUp(models.Model):
+class Signup (models.Model):
     Farmer = "f"
     Vendor = "v"
     Male = "m"
@@ -88,10 +88,11 @@ class SignUp(models.Model):
         ('f', 'Female'),
     )
 
-    Fname = models.CharField(max_length=40)
-    Lname = models.CharField(max_length=40)
+    fName = models.CharField(max_length=40,)
+    lName = models.CharField(max_length=40)
     email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=50)
+    password1 = models.CharField(max_length=50)
+    password2 = models.CharField(max_length=50)
     number = models.CharField(max_length=10)
     gender = models.CharField(
         max_length=6, 
@@ -108,32 +109,6 @@ class SignUp(models.Model):
         help_text='Select Role below',
     )
 
-
-class User(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-
-    class Meta:
-        model = SignUp
-        fields = ('Fname', 'Lname', 'email', 'password', 'number', 'gender', 'user_type')
-
-    def clean(self):
-        super(User.self).clean()
-        number = self.cleaned_data.get('number')
-        password = self.cleaned_data.get('password')
-
-        if len(password) < 8:
-            self.errors['password'] = self.error_class(
-                ['Password must be more than 8 characters']
-            )
-        if len(number) < 10:
-            self.errors['number'] = self.error_class(
-                ['Number is not valid, number is less than 10 characters']
-            )
-        if len(number) > 10:
-            self.errors['number'] = self.error_class(
-                ['Number is not valid, number is more than 10 characters']
-            )    
-        return self.cleaned_data
 
 class Login(models.Model):
     password = forms.CharField(widget=forms.PasswordInput())
