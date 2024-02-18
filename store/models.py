@@ -1,8 +1,9 @@
 from django.db import models
 import datetime
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
+
 
 # Create your models here.
 
@@ -37,11 +38,13 @@ class Category(models.Model):
 
 
 class Customer(models.Model):
-    first_name = models.CharField(max_length = 25)
+    first_name = models.OneToOneField(User, on_delete=models.CASCADE)
     last_name = models.CharField(max_length = 25)
-    phone = models.CharField(max_length = 15)
+    phone = models.ForeignKey(Profile, on_delete=models.CASCADE)
     email = models.EmailField(max_length = 256)
     password = models.CharField(max_length = 100)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, default=2)
+    profile_pic = models.ImageField(upload_to='uploads/accounts/', null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -71,49 +74,5 @@ class Order(models.Model):
         return self.product
 
 
-# Signup 
-class Signup (models.Model):
-    Farmer = "f"
-    Vendor = "v"
-    Male = "m"
-    Female = "f"
-
-    User_Choices = (
-        ('f', 'Farmer'),
-        ('v', 'Vendor'),
-    )
-
-    Gender = (
-        ('m', 'Male'),
-        ('f', 'Female'),
-    )
-
-    fName = models.CharField(max_length=40,)
-    lName = models.CharField(max_length=40)
-    email = models.EmailField(max_length=100)
-    password1 = models.CharField(max_length=50)
-    password2 = models.CharField(max_length=50)
-    number = models.CharField(max_length=10)
-    gender = models.CharField(
-        max_length=6, 
-        choices=Gender,
-        blank=True,
-        default='m',
-        help_text='Select Gender below',
-    )
-    user_type = models.CharField(
-        max_length=6,
-        choices=User_Choices,
-        blank=True,
-        default='f',
-        help_text='Select Role below',
-    )
-
-
-class Login(models.Model):
-    password = forms.CharField(widget=forms.PasswordInput())
-
-    email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=50)
 
     

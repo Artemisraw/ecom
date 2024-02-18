@@ -1,8 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Product, Customer
 
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model= Customer
+        fields=['phone','email','profile_pic']
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model= Product
+        fields=['name','price','description','image','is_sale','is_sale']
 
 class UserInfo(forms.ModelForm):
 	phone = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone'}), required=False)

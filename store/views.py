@@ -26,14 +26,14 @@ def search(request):
 
 def update_info(request):
     if request.user.is_authenticated:
-        current_user = Profile.objects.get(id=request.user.id)
+        current_user = Profile.objects.get(user__id=request.user.id)
         form = UserInfo(request.POST or None, instance=current_user)
 
         if form.is_valid():
             form.save()
 
             messages.success(request, "User info has been Updated")
-            return redirect('home')
+            return redirect('update_info')
         return render(request, "update_info.html", {'form': form})
        
     else:
@@ -90,7 +90,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request, ("You have been logged out"))
-    return redirect(home)
+    return redirect('home')
 
 
 def register_user(request):
@@ -108,7 +108,7 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, ("Username Created - Please Fill Out Your User Info Below "))
-            return redirect('update_info')
+            return redirect('home')
         else:
             messages.success(request, ("There was a problem while registering"))
             return redirect('register')
