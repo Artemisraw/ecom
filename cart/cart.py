@@ -92,7 +92,7 @@ class Cart():
 
         return total
 
-        def order(self, product, quantity):
+    def order(self, product, quantity):
         product_id = str(product)
         product_quantity = int(quantity)
 
