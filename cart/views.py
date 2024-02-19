@@ -67,3 +67,23 @@ def cart_add(request):
         response = JsonResponse({'Quantity: ': cart_quantity})
         messages.success(request, ("Product added to cart"))
         return response
+
+def cart_order(request):
+    cart = Cart(request)
+
+    if request.POST.get('action') == 'post':
+        # get stuff
+        product_id = request.POST.get('product_id')
+        product_quantity = request.POST.get('product_quantity')
+
+        # find the product
+        product = get_object_or_404(Product, id=product_id)
+
+        # store in settion 
+        cart.order(product=product, quantity=product_quantity)
+
+        # return response
+        # response = JsonResponse({'Product Name: ': product.name})
+        response = JsonResponse({'Quantity: ': cart_quantity})
+        messages.success(request, ("Ordered"))
+        return response

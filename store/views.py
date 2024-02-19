@@ -115,7 +115,6 @@ def register_user(request):
     else:
         return render(request,'register.html', {'form':form})
 
-
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
@@ -154,3 +153,25 @@ def update_password(request):
     else:
         messages.success(request, "You must be logged in to view this page")
         return redirect('home')
+
+def customer_signup_view(request):
+    userForm=forms.CustomerUserForm()
+    customerForm=forms.CustomerForm()
+    mydict={'userForm':userForm,'customerForm':customerForm}
+    if request.method=='POST':
+        userForm=forms.CustomerUserForm(request.POST)
+        customerForm=forms.CustomerForm(request.POST,request.FILES)
+        if userForm.is_valid() and customerForm.is_valid():
+            user=userForm.save()
+            user.set_password(user.password)
+            user.save()
+            customer=customerForm.save(commit=False)
+            customer.user=user
+            customer.save()
+            my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
+            my_customer_group[0].user_set.add(user)
+        return HttpResponseRedirect('login')
+    return render(request,'register.html',context=mydict)
+
+def payment_user(request):
+    return render(request,'payment.html',{})

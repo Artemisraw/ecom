@@ -1,4 +1,4 @@
-from store.models import Product
+from store.models import Product, Order
 
 class Cart():
     def __init__(self, request):
@@ -91,3 +91,19 @@ class Cart():
 
 
         return total
+
+        def order(self, product, quantity):
+        product_id = str(product)
+        product_quantity = int(quantity)
+
+
+        order = Order.objects.get_or_create(product=product_id,quantity=product_quantity)
+
+        # get cart
+        thecart = self.cart
+        #update the dictionrary
+        thecart[product_id] = product_quantity
+
+        self.session.modified = True
+
+        thing = self.cart
