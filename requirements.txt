@@ -4,7 +4,7 @@ django-appconf==1.0.5
 django-auditlog==1.0.0
 django-celery-results==2.5.1
 django-crispy-forms==1.14.0
-django-crum==0.7.9.dev0
+django-crum==0.7.9
 django-dbbackup==4.0.2
 django-environ==0.11.2
 django-extensions==3.2.3
