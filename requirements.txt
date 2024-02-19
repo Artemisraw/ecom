@@ -21,7 +21,7 @@ aiosqlite==0.17.0
 aiowinreg==0.0.7
 ajpy==0.0.5
 alabaster==0.7.12
-alembic==1.13.1.dev0
+alembic==1.13.1
 altgraph==0.17.4
 amqp==5.2.0
 androguard==3.4.0a1
